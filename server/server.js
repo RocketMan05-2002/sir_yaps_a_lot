@@ -13,6 +13,7 @@ import express from "express"
 import "dotenv/config"
 import cors from "cors"
 import http from "http"
+import { connectDB } from "./lib/db.js"
 
 // create express app using http server
 // we are using http because socketio supports this
@@ -26,6 +27,9 @@ app.use(cors()); // so that it allows all url to connect with our backend
 app.use("/api/status" , (req,res)=>{
     res.send("Server is live right?!");
 })
+
+//connect to mongoDB
+await connectDB();
 
 // defining port where our server would run
 const PORT = process.env.PORT || 8000;
