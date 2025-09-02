@@ -14,6 +14,7 @@ import "dotenv/config"
 import cors from "cors"
 import http from "http"
 import { connectDB } from "./lib/db.js"
+import UserRouter from "./routes/user.routes.js"
 
 // create express app using http server
 // we are using http because socketio supports this
@@ -27,6 +28,7 @@ app.use(cors()); // so that it allows all url to connect with our backend
 app.use("/api/status" , (req,res)=>{
     res.send("Server is live right?!");
 })
+app.use("/api/auth", UserRouter);
 
 //connect to mongoDB
 await connectDB();
