@@ -1,6 +1,7 @@
 import UserModel from "../models/user.model.js"
 import MessageModel from "../models/message.model.js"
 import cloudinary from "../lib/cloudinary.js"
+import { io, userSocketMap} from "../server.js"
 
 // get all users forn sidebar and unseen messages
 
@@ -89,6 +90,14 @@ export const sendMessage = async(req,res)=>{
             text,
             image: imageUrl
         });
+        // but we want this message to be instantly in real time to receiver's chat
+        // for that we gotta use socket.io
+
+        //Emit the new message to the receiver's socket
+        const receiverSocketId = userSocketMap[receiverId];
+        if(receiverSocketId){
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
         res.json({
             success:true,
             newMessage
@@ -98,3 +107,4 @@ export const sendMessage = async(req,res)=>{
         res.json({success: false, msg: err.message});
     }
 }
+
