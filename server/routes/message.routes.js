@@ -1,5 +1,5 @@
 import express from "express"
-import { getMessages, getUsersForSidebar, markMessageAsSeen } from "../controllers/message.controller";
+import { getMessages, getUsersForSidebar, markMessageAsSeen } from "../controllers/message.controller.js";
 import { protectRoute } from "../middlewares/auth.js";
 
 const MessageRouter = express.Router();
