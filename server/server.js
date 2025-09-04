@@ -15,6 +15,7 @@ import cors from "cors"
 import http from "http"
 import { connectDB } from "./lib/db.js"
 import UserRouter from "./routes/user.routes.js"
+import MessageRouter from "./routes/message.routes.js"
 
 // create express app using http server
 // we are using http because socketio supports this
@@ -25,10 +26,9 @@ const server = http.createServer(app);
 app.use(express.json({limit:"4mb"}));
 app.use(cors()); // so that it allows all url to connect with our backend
 
-app.use("/api/status" , (req,res)=>{
-    res.send("Server is live right?!");
-})
+app.use("/api/status" , (req,res)=> res.send("Server is live right?!"));
 app.use("/api/auth", UserRouter);
+app.use("/api/messages", MessageRouter);
 
 //connect to mongoDB
 await connectDB();
